@@ -1,0 +1,125 @@
+html {
+    min-height: 100%;
+}
+
+body {
+    height: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 20px;
+}
+
+.game-container {
+    background: white;
+    border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+    padding: 40px 30px;
+    width: 500px;
+    max-width: 100%;
+    text-align: center;
+}
+
+#home-screen h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+#start-game {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 16px 50px;
+    font-size: 1.2rem;
+    border-radius: 60px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+#start-game:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(102, 126, 234, 0.5);
+    background: #5a6fd8;
+}
+
+#start-game:active {
+    transform: translateY(0);
+}
+
+.info {
+    margin-bottom: 25px;
+    font-size: 1.3rem;
+    color: #555;
+}
+
+.current-player {
+    font-weight: 700;
+    color: #667eea;
+    background: #f0f3ff;
+    padding: 5px 15px;
+    border-radius: 40px;
+    display: inline-block;
+}
+
+.field {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    background: #e9eef5;
+    padding: 15px;
+    border-radius: 24px;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.cell {
+    background: white;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    font-weight: 600;
+    color: #333;
+    border-radius: 18px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.cell:hover {
+    background: #fafbff;
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.15);
+}
+
+@media (max-width: 500px) {
+    .game-container {
+        padding: 30px 20px;
+    }
+
+    #home-screen h1 {
+        font-size: 2rem;
+    }
+
+    #start-game {
+        padding: 14px 40px;
+        font-size: 1rem;
+    }
+
+    .cell {
+        font-size: 2.5rem;
+    }
+
+    .field {
+        gap: 8px;
+        padding: 10px;
+    }
+}
+

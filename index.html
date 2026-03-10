@@ -1,7 +1,33 @@
-<html>
+<!DOCTYPE html>
+<html lang="ru">
     <head>
         <meta charset="utf-8">
+        <title>Крестики-нолики</title>
         <script src="script.js"></script>
+        <link rel="stylesheet" href="style.css">
     </head>
-    <body></body>
+    <body>
+        <main class="game-container">
+            <div id="home-screen">
+                <h1>Крестики-нолики</h1>
+                <button id="start-game">Начать игру</button>
+            </div>
+            <div id="game-screen">
+                <div class="info">
+                    <span class="current-player">Ход: X</span>
+                </div>
+                <div class="field" id="field">
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                </div>
+            </div>
+        </main>
+    </body>
 </html>
