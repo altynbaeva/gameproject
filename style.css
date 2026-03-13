@@ -98,28 +98,3 @@ body {
     transform: scale(1.02);
     box-shadow: 0 10px 20px rgba(102, 126, 234, 0.15);
 }
-
-@media (max-width: 500px) {
-    .game-container {
-        padding: 30px 20px;
-    }
-
-    #home-screen h1 {
-        font-size: 2rem;
-    }
-
-    #start-game {
-        padding: 14px 40px;
-        font-size: 1rem;
-    }
-
-    .cell {
-        font-size: 2.5rem;
-    }
-
-    .field {
-        gap: 8px;
-        padding: 10px;
-    }
-}
-
