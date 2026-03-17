@@ -1,8 +1,8 @@
 class Game {
     private field: Field
-    public currentPlayer: Player
     private players: [Player, Player]
-    private gameOver: boolean = false
+    public currentPlayer: Player
+    public gameOver: boolean = false
 
     constructor(player1: Player, player2: Player) {
         this.field = new Field();
@@ -13,34 +13,34 @@ class Game {
         this.currentPlayer = player1;
     }
 
-    public getField(): void {
-        this.field.getField()
+    public get thisField(): Field {
+        return this.field
     }
 
     private checkWin(player: Player): boolean {
         const mark = player.myMark
         for (let i = 0; i < 3; i++) {
             if ((this.field.getCellValue(0, i) === mark) && (this.field.getCellValue(1, i) === mark) && (this.field.getCellValue(2, i) === mark)) {
-                this.gameOver = true
-                return this.gameOver
+                this.gameOver = true;
+                return this.gameOver;
             }
         }
 
         for (let i = 0; i < 3; i++) {
             if ((this.field.getCellValue(i, 0) === mark) && (this.field.getCellValue(i, 1) === mark) && (this.field.getCellValue(i, 2) === mark)) {
-                this.gameOver = true
-                return this.gameOver
+                this.gameOver = true;
+                return this.gameOver;
             }
         }
 
         if ((this.field.getCellValue(0, 0) === mark) && (this.field.getCellValue(1, 1) === mark) && (this.field.getCellValue(2, 2) === mark)) {
-            this.gameOver = true
-            return this.gameOver
+            this.gameOver = true;
+            return this.gameOver;
         }
 
         if ((this.field.getCellValue(0, 2) === mark) && (this.field.getCellValue(1, 1) === mark) && (this.field.getCellValue(2, 0) === mark)) {
-            this.gameOver = true
-            return this.gameOver
+            this.gameOver = true;
+            return this.gameOver;
         }
 
         return this.gameOver
@@ -120,7 +120,7 @@ class Player {
     }
 }
 
-window.onload = function() {
+function gameScreen () {
     const startButton = document.getElementById("start-game");
     if (startButton) {
         startButton.onclick = startGame
@@ -145,17 +145,60 @@ window.onload = function() {
     }
 }
 
+window.onload = gameScreen
+
+function delay (ms: number) {
+    return new Promise (function(resolve, reject) {
+        setTimeout(function() {
+            const userConfirm = confirm("Начать заново");
+            if (userConfirm) {
+                resolve ("Пользователь нажал Ok");
+            }   else {
+                    reject ("Пользователь нажал Отмена");
+                }
+        }, ms);
+    });
+}
+
+
 function changeMark (game: Game, cell: Element) {
     let change = document.querySelector(".current-player");
+
     if (change) {
         if (game.currentPlayer.myMark === 0) {
-        change.textContent = "Ход: X";
-        cell.textContent = "O";
-    }   else {
-        change.textContent = "Ход: O"
-        cell.textContent = "X";
+            change.textContent = "Ход: X";
+            cell.textContent = "O";
+        }
+
+        if (game.currentPlayer.myMark === 1) {
+            change.textContent = "Ход: O"
+            cell.textContent = "X";
+        }
+
+        if (game.gameOver === true) {
+            if (game.currentPlayer.myMark === 0) {
+                change.textContent = "Игра окончена. Победил игрок O!";
+            }  else {
+                change.textContent = "Игра окончена. Победил игрок X!";
+            }
+
+            delay(1500).then(function() {
+                const home = document.getElementById("home-screen");
+                const game = document.getElementById("game-screen");
+                if (game) {
+                    game.hidden = true;
+                }
+
+                if (home) {
+                    home.hidden = false;
+                }
+                
+            },
+            function() {
+                
+            })
+        }
     }
-}
 }
 
 function makeTurn(x: number, y: number, game: Game, player: Player) {
@@ -186,3 +229,4 @@ playerR.move(1, 1, game);
 playerV.move(2, 0, game);
 playerR.move(2, 1, game);
 game.getField();*/
+//написать кто победил, кнопка начать заново, верстка для мобилки

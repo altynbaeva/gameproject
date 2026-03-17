@@ -1,8 +1,8 @@
 "use strict";
 class Game {
     field;
-    currentPlayer;
     players;
+    currentPlayer;
     gameOver = false;
     constructor(player1, player2) {
         this.field = new Field();
@@ -12,22 +12,20 @@ class Game {
         this.players = [player1, player2];
         this.currentPlayer = player1;
     }
-    getField() {
-        this.field.getField();
+    get thisField() {
+        return this.field;
     }
     checkWin(player) {
         const mark = player.myMark;
         for (let i = 0; i < 3; i++) {
             if ((this.field.getCellValue(0, i) === mark) && (this.field.getCellValue(1, i) === mark) && (this.field.getCellValue(2, i) === mark)) {
                 this.gameOver = true;
-                console.log("ppp");
                 return this.gameOver;
             }
         }
         for (let i = 0; i < 3; i++) {
             if ((this.field.getCellValue(i, 0) === mark) && (this.field.getCellValue(i, 1) === mark) && (this.field.getCellValue(i, 2) === mark)) {
                 this.gameOver = true;
-                console.log("iiii");
                 return this.gameOver;
             }
         }
@@ -97,7 +95,7 @@ class Player {
         game.makeMove(x, y, this);
     }
 }
-window.onload = function () {
+function fieldOnload() {
     const startButton = document.getElementById("start-game");
     if (startButton) {
         startButton.onclick = startGame;
@@ -119,7 +117,21 @@ window.onload = function () {
             }
         }
     }
-};
+}
+window.onload = fieldOnload;
+function delay(ms) {
+    return new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            const userConfirm = confirm("Начать заново");
+            if (userConfirm) {
+                resolve("Пользователь нажал Ok");
+            }
+            else {
+                reject("Пользователь нажал Отмена");
+            }
+        }, ms);
+    });
+}
 function changeMark(game, cell) {
     let change = document.querySelector(".current-player");
     if (change) {
@@ -127,9 +139,29 @@ function changeMark(game, cell) {
             change.textContent = "Ход: X";
             cell.textContent = "O";
         }
-        else {
+        if (game.currentPlayer.myMark === 1) {
             change.textContent = "Ход: O";
             cell.textContent = "X";
+        }
+        if (game.gameOver === true) {
+            if (game.currentPlayer.myMark === 0) {
+                change.textContent = "Игра окончена. Победил игрок O!";
+            }
+            else {
+                change.textContent = "Игра окончена. Победил игрок X!";
+            }
+            delay(1500).then(function () {
+                const home = document.getElementById("home-screen");
+                const game = document.getElementById("game-screen");
+                if (game) {
+                    game.hidden = true;
+                }
+                if (home) {
+                    home.hidden = false;
+                }
+                fieldOnload();
+            }, function () {
+            });
         }
     }
 }
@@ -155,4 +187,5 @@ playerR.move(1, 1, game);
 playerV.move(2, 0, game);
 playerR.move(2, 1, game);
 game.getField();*/
+//написать кто победил, кнопка начать заново, верстка для мобилки
 //# sourceMappingURL=script.js.map
