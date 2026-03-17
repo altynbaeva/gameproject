@@ -1,5 +1,6 @@
 html {
     min-height: 100%;
+    max-width: 100%;
 }
 
 body {
@@ -97,4 +98,33 @@ body {
     background: #fafbff;
     transform: scale(1.02);
     box-shadow: 0 10px 20px rgba(102, 126, 234, 0.15);
+}
+
+@media (max-width: 480px) {
+    .game-container {
+        padding: 30px 20px;
+        border-radius: 24px;
+    }
+
+    #home-screen h1 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    #start-game {
+        padding: 14px 30px;
+        border-radius: 40px;
+        font-size: 1rem;
+    }
+
+    .field {
+        gap: 8px;
+        padding: 10px;
+        border-radius: 20px;
+    }
+
+    .cell {
+        font-size: 2.5rem;
+        border-radius: 12px;
+    }
 }

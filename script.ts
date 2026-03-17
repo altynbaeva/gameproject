@@ -66,7 +66,7 @@ class Field {
     private field: number[][] = [[-1, -1, -1], 
                                 [-1, -1, -1], 
                                 [-1, -1, -1]];
-
+    
     public getField(): void {
         console.log(this.field)
     }
@@ -120,32 +120,12 @@ class Player {
     }
 }
 
-function gameScreen () {
+window.onload = function () {
     const startButton = document.getElementById("start-game");
     if (startButton) {
         startButton.onclick = startGame
     } 
-
-    let playerX = new Player(0);
-    let playerO = new Player(1);
-    let newGame = new Game(playerX, playerO);
-    const cells = document.querySelectorAll(".cell");
-    for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 3; j++) {
-            let index = 3 * i + j;
-            const cell = cells[index];
-            if (cell) {
-                cell.addEventListener("click", function() {
-                console.log(cell);
-                makeTurn(j, i, newGame, newGame.currentPlayer);
-                changeMark(newGame, cell);
-                })
-            }
-        }
-    }
 }
-
-window.onload = gameScreen
 
 function delay (ms: number) {
     return new Promise (function(resolve, reject) {
@@ -163,7 +143,7 @@ function delay (ms: number) {
 
 function changeMark (game: Game, cell: Element) {
     let change = document.querySelector(".current-player");
-
+    
     if (change) {
         if (game.currentPlayer.myMark === 0) {
             change.textContent = "Ход: X";
@@ -183,19 +163,9 @@ function changeMark (game: Game, cell: Element) {
             }
 
             delay(1500).then(function() {
-                const home = document.getElementById("home-screen");
-                const game = document.getElementById("game-screen");
-                if (game) {
-                    game.hidden = true;
-                }
-
-                if (home) {
-                    home.hidden = false;
-                }
-                
+                startGame()
             },
             function() {
-                
             })
         }
     }
@@ -215,6 +185,32 @@ function startGame() {
 
      if (game) {
         game.hidden = false;
+    }
+
+    let playerX = new Player(0);
+    let playerO = new Player(1);
+    let newGame = new Game(playerX, playerO);
+
+    const cells = document.querySelectorAll(".cell");
+    for (let i = 0; i < cells.length; i++) {
+        const cell = cells[i];
+        if (cell) {
+            cell.textContent = ""
+        }
+    }
+
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; j++) {
+            let index = 3 * i + j;
+            const cell = cells[index] as HTMLElement;
+            if (cell) {
+                cell.onclick = function() {
+                console.log(cell);
+                makeTurn(j, i, newGame, newGame.currentPlayer);
+                changeMark(newGame, cell);
+                }
+            }
+        }
     }
 }
 
