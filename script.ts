@@ -2,6 +2,7 @@ class Game {
     private field: Field
     private players: [Player, Player]
     public currentPlayer: Player
+    public draw: boolean = false
     public gameOver: boolean = false
 
     constructor(player1: Player, player2: Player) {
@@ -22,6 +23,7 @@ class Game {
         for (let i = 0; i < 3; i++) {
             if ((this.field.getCellValue(0, i) === mark) && (this.field.getCellValue(1, i) === mark) && (this.field.getCellValue(2, i) === mark)) {
                 this.gameOver = true;
+                this.draw = false;
                 return this.gameOver;
             }
         }
@@ -29,21 +31,35 @@ class Game {
         for (let i = 0; i < 3; i++) {
             if ((this.field.getCellValue(i, 0) === mark) && (this.field.getCellValue(i, 1) === mark) && (this.field.getCellValue(i, 2) === mark)) {
                 this.gameOver = true;
+                this.draw = false;
                 return this.gameOver;
             }
         }
 
         if ((this.field.getCellValue(0, 0) === mark) && (this.field.getCellValue(1, 1) === mark) && (this.field.getCellValue(2, 2) === mark)) {
             this.gameOver = true;
+            this.draw = false;
             return this.gameOver;
         }
 
         if ((this.field.getCellValue(0, 2) === mark) && (this.field.getCellValue(1, 1) === mark) && (this.field.getCellValue(2, 0) === mark)) {
             this.gameOver = true;
+            this.draw = false;
             return this.gameOver;
         }
 
-        return this.gameOver
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (this.field.getCellValue(i, j) === -1) {
+                    this.gameOver = false;
+                    this.draw = false;
+                    return this.gameOver;
+                }
+            }
+        }
+        this.gameOver = true;
+        this.draw = true;
+        return this.gameOver, this.draw;
     }
 
     public makeMove(x: number, y: number, player: Player): void {
@@ -156,10 +172,16 @@ function changeMark (game: Game, cell: Element) {
         }
 
         if (game.gameOver === true) {
-            if (game.currentPlayer.myMark === 0) {
-                change.textContent = "Игра окончена. Победил игрок O!";
-            }  else {
-                change.textContent = "Игра окончена. Победил игрок X!";
+            if (game.draw) {
+                change.textContent = "Игра окончена. Ничья!";
+            } else {
+               if (game.currentPlayer.myMark === 0) {
+                    change.textContent = "Игра окончена. Победил игрок O!";
+                }
+
+                if (game.currentPlayer.myMark === 1) {
+                    change.textContent = "Игра окончена. Победил игрок X!";
+                }
             }
 
             delay(1500).then(function() {
@@ -213,16 +235,3 @@ function startGame() {
         }
     }
 }
-
-
-
-/*let playerR = new Player(0);
-let playerV = new Player(1);
-let game = new Game(playerR, playerV);
-playerR.move(0, 1, game);
-playerV.move(0, 0, game);
-playerR.move(1, 1, game);
-playerV.move(2, 0, game);
-playerR.move(2, 1, game);
-game.getField();*/
-//написать кто победил, кнопка начать заново, верстка для мобилки

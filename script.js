@@ -3,6 +3,7 @@ class Game {
     field;
     players;
     currentPlayer;
+    draw = false;
     gameOver = false;
     constructor(player1, player2) {
         this.field = new Field();
@@ -20,24 +21,39 @@ class Game {
         for (let i = 0; i < 3; i++) {
             if ((this.field.getCellValue(0, i) === mark) && (this.field.getCellValue(1, i) === mark) && (this.field.getCellValue(2, i) === mark)) {
                 this.gameOver = true;
+                this.draw = false;
                 return this.gameOver;
             }
         }
         for (let i = 0; i < 3; i++) {
             if ((this.field.getCellValue(i, 0) === mark) && (this.field.getCellValue(i, 1) === mark) && (this.field.getCellValue(i, 2) === mark)) {
                 this.gameOver = true;
+                this.draw = false;
                 return this.gameOver;
             }
         }
         if ((this.field.getCellValue(0, 0) === mark) && (this.field.getCellValue(1, 1) === mark) && (this.field.getCellValue(2, 2) === mark)) {
             this.gameOver = true;
+            this.draw = false;
             return this.gameOver;
         }
         if ((this.field.getCellValue(0, 2) === mark) && (this.field.getCellValue(1, 1) === mark) && (this.field.getCellValue(2, 0) === mark)) {
             this.gameOver = true;
+            this.draw = false;
             return this.gameOver;
         }
-        return this.gameOver;
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (this.field.getCellValue(i, j) === -1) {
+                    this.gameOver = false;
+                    this.draw = false;
+                    return this.gameOver;
+                }
+            }
+        }
+        this.gameOver = true;
+        this.draw = true;
+        return this.gameOver, this.draw;
     }
     makeMove(x, y, player) {
         if (this.gameOver) {
@@ -126,11 +142,16 @@ function changeMark(game, cell) {
             cell.textContent = "X";
         }
         if (game.gameOver === true) {
-            if (game.currentPlayer.myMark === 0) {
-                change.textContent = "Игра окончена. Победил игрок O!";
+            if (game.draw) {
+                change.textContent = "Игра окончена. Ничья!";
             }
             else {
-                change.textContent = "Игра окончена. Победил игрок X!";
+                if (game.currentPlayer.myMark === 0) {
+                    change.textContent = "Игра окончена. Победил игрок O!";
+                }
+                if (game.currentPlayer.myMark === 1) {
+                    change.textContent = "Игра окончена. Победил игрок X!";
+                }
             }
             delay(1500).then(function () {
                 startGame();
@@ -175,14 +196,4 @@ function startGame() {
         }
     }
 }
-/*let playerR = new Player(0);
-let playerV = new Player(1);
-let game = new Game(playerR, playerV);
-playerR.move(0, 1, game);
-playerV.move(0, 0, game);
-playerR.move(1, 1, game);
-playerV.move(2, 0, game);
-playerR.move(2, 1, game);
-game.getField();*/
-//написать кто победил, кнопка начать заново, верстка для мобилки
 //# sourceMappingURL=script.js.map
